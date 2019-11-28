@@ -5,7 +5,7 @@ Created on Sat Nov 16 15:28:33 2019
 
 @author: angelozinna
 """
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, url_for
 from app import app
 from app.forms import LoginForm
 
