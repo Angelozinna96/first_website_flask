@@ -7,7 +7,7 @@ Created on Sat Nov 16 15:28:33 2019
 """
 from flask import render_template, flash, redirect, url_for
 from app import app
-from app.forms import LoginForm, SignupForm
+from app.forms import LoginForm, SignupForm, CreateEventForm
 
 @app.route('/')
 @app.route('/index')
@@ -41,3 +41,11 @@ def signup():
             form.username.data))
         return redirect(url_for('index'))
     return render_template('signup.html', title='Sign Up', form=form)
+@app.route('/create_event', methods=['GET', 'POST'])
+def createevent():
+    form = CreateEventForm()
+    if form.validate_on_submit():
+        flash('event {} Successfull created!'.format(
+            form.name.data))
+        return redirect(url_for('index'))
+    return render_template('createevent.html', title='Create Event', form=form)

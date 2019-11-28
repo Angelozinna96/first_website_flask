@@ -7,7 +7,7 @@ Created on Thu Nov 28 09:21:53 2019
 """
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField
+from wtforms import StringField, PasswordField, SubmitField, DateField, DateTimeField
 from wtforms.validators import DataRequired
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()]) 
@@ -20,7 +20,14 @@ class SignupForm(FlaskForm):
     lastname = StringField("Lastname", validators=[DataRequired()]) 
     username = StringField("Username", validators=[DataRequired()]) 
     password = PasswordField("Password", validators=[DataRequired()])
-    dateofbirth = DateField("Date of birth(dd/mm/yyyy)",validators=[DataRequired()],format='%d-%m-%Y')
+    dateofbirth = DateField("Date of birth(dd-mm-yyyy)",validators=[DataRequired()],format='%d-%m-%Y')
+    submit = SubmitField("Sign Up")
+class CreateEventForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()]) 
+    addr_1 = StringField("Address line 1", validators=[DataRequired()]) 
+    location = StringField("Location Name", validators=[DataRequired()]) 
+    datetime_start =  DateTimeField("Datetime start((dd-mm-yyyy HH:mm))", validators=[DataRequired()], format ='%d-%m-%Y %H:%M')
+    datetime_end = DateTimeField("Datetime end(Optional)", format ='%d-%m-%Y %H:%M')
     submit = SubmitField("Sign Up")
     
     
