@@ -1,2 +1,8 @@
 
 .DS_Store
+
+venv/__pycache__/
+
+venv/app/__pycache__/
+
+venv/migrations/__pycache__/
