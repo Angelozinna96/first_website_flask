@@ -6,4 +6,9 @@ Created on Sat Nov 16 15:54:50 2019
 @author: angelozinna
 """
 
-from app import app
+from app import app, db
+from app.models import User, Event
+
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'User': User, 'Event': Event}
