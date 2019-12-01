@@ -15,14 +15,7 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
 
     submit = SubmitField("Sign In")
-    
-class SignupForm(FlaskForm):
-    firstname = StringField("Firstname", validators=[DataRequired()]) 
-    lastname = StringField("Lastname", validators=[DataRequired()]) 
-    username = StringField("Username", validators=[DataRequired()]) 
-    password = PasswordField("Password", validators=[DataRequired()])
-    dateofbirth = DateField("Date of birth(dd-mm-yyyy)",validators=[DataRequired()],format='%d-%m-%Y')
-    submit = SubmitField("Sign Up")
+
 class CreateEventForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()]) 
     addr_1 = StringField("Address line 1", validators=[DataRequired()]) 
@@ -36,7 +29,6 @@ class RegistrationForm(FlaskForm):
     lastname = StringField("Lastname", validators=[DataRequired()]) 
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    dateofbirth = DateField("Date of birth(dd-mm-yyyy)",validators=[DataRequired()],format='%d-%m-%Y')
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')

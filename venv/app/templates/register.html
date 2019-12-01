@@ -17,13 +17,6 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-         <p>
-            {{ form.dateofbirth.label }}<br>
-            {{ form.dateofbirth(size=32) }}<br>
-            {% for error in form.dateofbirth.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
         <p>
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
