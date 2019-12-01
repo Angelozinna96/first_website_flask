@@ -36,7 +36,9 @@ class Event(db.Model):
     location = db.Column(db.String(120),index=True)
     datetime_start =  db.Column(db.DateTime, index=True, default=datetime.utcnow)
     datetime_end = db.Column(db.DateTime, default=datetime.utcnow)
+    archived =db.Column(db.String(10),default="no",index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
     
 
     def __repr__(self):
