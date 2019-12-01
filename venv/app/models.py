@@ -40,4 +40,13 @@ class Event(db.Model):
     
 
     def __repr__(self):
+        return '<Event {}>'.format(self.name)
+class Sharedevent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id1 = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id2 = db.Column(db.Integer, db.ForeignKey('user.id'))
+    event_shared = db.Column(db.Integer, db.ForeignKey('event.id'))
+    
+
+    def __repr__(self):
         return '<Event {}>'.format(self.body)
