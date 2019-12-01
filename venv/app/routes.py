@@ -66,6 +66,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/create_event', methods=['GET', 'POST'])
+@login_required
 def createevent():
     form = CreateEventForm()
     if form.validate_on_submit():

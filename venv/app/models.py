@@ -39,10 +39,9 @@ class Event(db.Model):
     archived =db.Column(db.String(10),default="no",index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
-    
-
     def __repr__(self):
-        return '<Event {}>'.format(self.name)
+        return '<Event name={}, addr_1={},location={}, datetime_start={},archived={}, user_id={}>'.format(self.name,self.addr_1,self.location,self.datetime_start,self.archived,self.user_id)
+    
 class Sharedevent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id1 = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -51,4 +50,4 @@ class Sharedevent(db.Model):
     
 
     def __repr__(self):
-        return '<Event {}>'.format(self.body)
+        return '<SharedEvent user={}-->user={} event={}>'.format(self.user_id1,self.user_id2,self.event_shared)

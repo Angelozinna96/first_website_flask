@@ -7,9 +7,10 @@ Created on Thu Nov 28 09:21:53 2019
 """
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, DateTimeField
+from wtforms import StringField, PasswordField, SubmitField, DateTimeField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
+
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()]) 
     password = PasswordField("Password", validators=[DataRequired()])
@@ -21,7 +22,6 @@ class CreateEventForm(FlaskForm):
     addr_1 = StringField("Address line 1", validators=[DataRequired()]) 
     location = StringField("Location Name", validators=[DataRequired()]) 
     datetime_start =  DateTimeField("Datetime start((dd-mm-yyyy HH:mm))", validators=[DataRequired()], format ='%d-%m-%Y %H:%M')
-    datetime_end = DateTimeField("Datetime end(Optional)", format ='%d-%m-%Y %H:%M')
     submit = SubmitField("Sign Up")
 
 class RegistrationForm(FlaskForm):
