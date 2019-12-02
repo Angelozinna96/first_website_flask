@@ -9,7 +9,7 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user,logout_user, login_required
 from app.models import User, Event, Sharedevent
 from app import app
-from app.forms import LoginForm, RegistrationForm, CreateEventForm, SearchForm, DeleteEventForm, ModifyEventForm, ArchiveEventForm
+from app.forms import LoginForm, RegistrationForm, CreateEventForm, SearchForm, DeleteEventForm, ModifyEventForm, ArchiveEventForm, SharedEventForm
 from flask import request
 from werkzeug.urls import url_parse
 from app import db
@@ -52,6 +52,31 @@ def search():
     else:
         events = Event.query.filter(Event.archived=="no").all()
     return render_template('search.html', title='Search', form=form, events=events)
+
+@app.route('/share_event', methods=['GET', 'POST'])
+@login_required
+def shareevent():
+    form = SharedEventForm()
+    if form.validate_on_submit():
+        user = User.query.filter(User.username==form.username.data).first()
+        ev_id = Event.query.filter(Event.id==form.id_event.data).first()
+        #query if already exist the entry
+        shared=Sharedevent.query.filter(Sharedevent.user_id1==current_user.get_id()).filter(Sharedevent.user_id2==user.id).filter(Sharedevent.event_shared==form.id_event.data).first()
+        if user is None :         
+            flash("User not exist!")
+        elif ev_id is None:           
+            flash("Event not exist!")
+        elif shared is not None:           
+            flash("You have already shared this event to this user!")
+        else:
+            event=Sharedevent(user_id1=current_user.get_id(), user_id2=user.id, event_shared=form.id_event.data)
+            db.session.add(event)
+            db.session.commit()
+            flash('Congratulations, your event is been shared!')
+ 
+    events = Event.query.filter(Event.archived=="no").all()
+    return render_template('shareevent.html', title='Search', form=form, events=events)
+
 
 @app.route('/delete_event', methods=['GET', 'POST'])
 @login_required
@@ -145,5 +170,8 @@ def createevent():
         db.session.add(event)
         db.session.commit()
         flash('Congratulations, your event is been created!')
-        return redirect(url_for('index'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)
     return render_template('createevent.html', title='Create Event', form=form)
