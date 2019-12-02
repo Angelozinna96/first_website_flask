@@ -20,8 +20,10 @@
             {% else %}
                 <a href="{{ url_for('logout') }}">Logout </a>
                 <a href="{{ url_for('createevent') }}">Create Event </a>
-                <a href="{{ url_for('search') }}">Search </a>
+                <a href="{{ url_for('modifyevent') }}">Modify Event </a>
                 <a href="{{ url_for('deleteevent') }}">Delete Event </a>
+                <a href="{{ url_for('search') }}">Search </a>
+               
             {% endif %}
            
             

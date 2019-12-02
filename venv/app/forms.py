@@ -21,9 +21,16 @@ class SearchForm(FlaskForm):
     submit = SubmitField("Search")
     
 class DeleteEventForm(FlaskForm):
-    id_event = StringField("ID event", validators=[DataRequired()])   
+    id_event = StringField("ID Event", validators=[DataRequired()])   
     submit = SubmitField("Delete")
     
+class ModifyEventForm(FlaskForm):
+    id_event = StringField("ID event to modify", validators=[DataRequired()])   
+    name = StringField("New Name", validators=[DataRequired()]) 
+    addr_1 = StringField("New Address line 1", validators=[DataRequired()]) 
+    location = StringField("New Description", validators=[DataRequired()]) 
+    datetime_start =  DateTimeField("New Datetime start(yyyy-mm-dd HH:mm)", validators=[DataRequired()], format ='%Y-%m-%d %H:%M')
+    submit = SubmitField("Modify")
 class CreateEventForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()]) 
     addr_1 = StringField("Address line 1", validators=[DataRequired()]) 
