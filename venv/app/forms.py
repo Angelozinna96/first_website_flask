@@ -23,7 +23,7 @@ class SearchForm(FlaskForm):
 class DeleteEventForm(FlaskForm):
     id_event = StringField("ID Event", validators=[DataRequired()])   
     submit = SubmitField("Delete")
-    
+  
 class ModifyEventForm(FlaskForm):
     id_event = StringField("ID event to modify", validators=[DataRequired()])   
     name = StringField("New Name", validators=[DataRequired()]) 

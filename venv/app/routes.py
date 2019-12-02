@@ -79,10 +79,12 @@ def modifyevent():
     form = ModifyEventForm()
     if form.validate_on_submit():
         event_to_modify = Event.query.filter(Event.id==form.id_event.data).first()
-        flash("id="+str(event_to_modify.id)+" eccolaa")  
         #control if it is allowed to delete the post
-        if str(event_to_modify.user_id) == str(current_user.get_id()):
-            Event.query.filter(Event.id==event_to_modify.user_id).update({Event.name:form.name.data, Event.addr_1:form.addr_1.data,Event.location:form.location.data, Event.datetime_start:form.datetime_start.data },synchronize_session="evaluate")
+        if str(event_to_modify.user_id) == str(current_user.get_id()):           
+            db.session.delete(event_to_modify)
+            db.session.commit()
+            event=Event(name=form.name.data, addr_1=form.addr_1.data,location=form.location.data, datetime_start=form.datetime_start.data, user_id=current_user.get_id())
+            db.session.add(event)
             db.session.commit()
             #flash('You have successfully modified the event!')  
             next_page = request.args.get('next')
@@ -117,7 +119,7 @@ def register():
 def createevent():
     form = CreateEventForm()
     if form.validate_on_submit():
-        event=Event(name=form.name.data, addr_1=form.addr_1.data, datetime_start=form.datetime_start.data, user_id=current_user.get_id())
+        event=Event(name=form.name.data, addr_1=form.addr_1.data, location=form.location.data,datetime_start=form.datetime_start.data, user_id=current_user.get_id())
         db.session.add(event)
         db.session.commit()
         flash('Congratulations, your event is been created!')
