@@ -9,7 +9,7 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user,logout_user, login_required
 from app.models import User, Event, Sharedevent
 from app import app
-from app.forms import LoginForm, RegistrationForm, CreateEventForm, SearchForm, DeleteEventForm, ModifyEventForm
+from app.forms import LoginForm, RegistrationForm, CreateEventForm, SearchForm, DeleteEventForm, ModifyEventForm, ArchiveEventForm
 from flask import request
 from werkzeug.urls import url_parse
 from app import db
@@ -69,7 +69,7 @@ def deleteevent():
                 next_page = url_for('index')
             return redirect(next_page)
         else:
-            flash('You can not delete event of other users!')   
+            flash('You can not delete events of other users!')   
     events = Event.query.filter(Event.user_id==current_user.get_id()).all()
     return render_template('deleteevent.html', title='Delete Event', events=events, form=form)
 
@@ -86,15 +86,37 @@ def modifyevent():
             event=Event(name=form.name.data, addr_1=form.addr_1.data,location=form.location.data, datetime_start=form.datetime_start.data, user_id=current_user.get_id())
             db.session.add(event)
             db.session.commit()
-            #flash('You have successfully modified the event!')  
+            flash('You have successfully modified the event!')  
             next_page = request.args.get('next')
             if not next_page or url_parse(next_page).netloc != '':
                 next_page = url_for('index')
             return redirect(next_page)
         else:
-            flash('You can not modify event of other users!')   
-    events = Event.query.filter(Event.user_id==current_user.get_id()).all()
-    return render_template('modifyevent.html', title='Modify Event', events=events, form=form)
+            flash('You can not modify events of other users!')   
+    return render_template('modifyevent.html', title='Modify Event', form=form)
+
+@app.route('/archive_event', methods=['GET', 'POST'])
+@login_required
+def archiveevent():
+    form = ArchiveEventForm()
+    if form.validate_on_submit():
+        event_to_archive = Event.query.filter(Event.id==form.id_event.data).first()
+        #control if it is allowed to delete the post
+        if str(event_to_archive.user_id) == str(current_user.get_id()):           
+            db.session.delete(event_to_archive)
+            db.session.commit()
+            event=Event(archived="yes", name=event_to_archive.name, addr_1=event_to_archive.addr_1,location=event_to_archive.location, datetime_start=event_to_archive.datetime_start, user_id=current_user.get_id())
+            db.session.add(event)
+            db.session.commit()
+            flash('You have successfully archived the event!')  
+            next_page = request.args.get('next')
+            if not next_page or url_parse(next_page).netloc != '':
+                next_page = url_for('index')
+            return redirect(next_page)
+        else:
+            flash('You can not archive events of other users!')   
+    events = Event.query.filter(Event.user_id==current_user.get_id()).filter(Event.archived=="no").all()
+    return render_template('archiveevent.html', title='Archive Event', events=events, form=form)
 
 @app.route('/logout')
 def logout():

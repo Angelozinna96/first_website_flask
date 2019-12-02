@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Delete event</h1>
+    <h1>Delete Event</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
          <p>
@@ -9,10 +9,8 @@
             {% for error in form.id_event.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-
-        
-       
-        <p>{{ form.submit() }}</p>
+            {{ form.submit() }}
+        </p>
     </form>
     <br>
     {% for event in events %}

@@ -9,10 +9,8 @@
             {% for error in form.id_event.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-
-        
-       
-        <p>{{ form.submit() }}</p>
+            {{ form.submit() }}
+        </p>
     </form>
     <br>
     <h1> Active Events</h1>
