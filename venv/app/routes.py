@@ -9,7 +9,7 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user,logout_user, login_required
 from app.models import User, Event, Sharedevent
 from app import app
-from app.forms import LoginForm, RegistrationForm, CreateEventForm
+from app.forms import LoginForm, RegistrationForm, CreateEventForm, SearchForm
 from flask import request
 from werkzeug.urls import url_parse
 from app import db
@@ -21,16 +21,6 @@ from app import db
 def index():
     va= current_user.get_id()
     events = Event.query.filter(Event.user_id==va).filter(Event.archived=="no").all()
-    posts = [
-        {
-            'author': {'username': str(va)},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
     return render_template('index.html', title='Home', events=events)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -49,6 +39,19 @@ def login():
             next_page = url_for('index')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        if form.search.data.strip() == "":
+            events = Event.query.filter(Event.archived=="no").all()         
+        else:
+             events = Event.query.filter(Event.name.like(form.search.data+"%")).filter(Event.archived=="no").all()
+    else:
+        events = Event.query.filter(Event.archived=="no").all()
+    return render_template('search.html', title='Search', form=form, events=events)
 @app.route('/logout')
 def logout():
     logout_user()

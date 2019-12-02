@@ -4,42 +4,25 @@
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
          <p>
-            {{ form.name.label }}<br>
-            {{ form.name(size=32) }}<br>
-            {% for error in form.name.errors %}
+            {{ form.search.label }} {{ form.search(size=64) }}
+            {% for error in form.search.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
+
+         
+            {{ form.submit() }}
         </p>
-         <p>
-            {{ form.addr_1.label }}<br>
-            {{ form.addr_1(size=32) }}<br>
-            {% for error in form.addr_1.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-         <p>
-            {{ form.location.label }}<br>
-            {{ form.location(size=32) }}<br>
-            {% for error in form.location.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.datetime_start.label }}<br>
-            {{ form.datetime_start(size=32) }}<br>
-            {% for error in form.datetime_start.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.user_id.label }}<br>
-            {{ form.user_id(size=32) }}<br>
-            {% for error in form.user_id.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        
-       
-        <p>{{ form.submit() }}</p>
     </form>
+    
+    {% for event in events %}
+    <div>
+     <hr>
+        <p> Name : {{ event.name }}</p>
+        <p> Description : {{ event.location }}</p>
+        <p> Address : {{ event.addr_1 }}</p>
+        <p> DateTime start: {{ event.datetime_start }}</p>
+     <hr>
+    </div>
+    {% endfor %}
+    
 {% endblock %}

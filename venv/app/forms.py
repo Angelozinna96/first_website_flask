@@ -16,7 +16,9 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
 
     submit = SubmitField("Sign In")
-
+class SearchForm(FlaskForm):
+    search = StringField("Search for event name",default="") 
+    submit = SubmitField("Search")
 class CreateEventForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()]) 
     addr_1 = StringField("Address line 1", validators=[DataRequired()]) 

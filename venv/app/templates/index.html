@@ -2,14 +2,16 @@
 
 {% block content %}
     <h1>Hi, {{ current_user.username }}!</h1>
+    <hr>
     {% for event in events %}
     <div>
-        <p> Name : {{ event.name }}</p>
-        <p> Description : {{ event.location }}</p>
-        <p> Address : {{ event.addr_1 }}</p>
-        <p> DateTime start: {{ event.datetime_start }}</p>
-        
+     <ul>
+        <li><p> Name : {{ event.name }}</p></li>
+        <li><p> Description : {{ event.location }}</p></li>
+        <li><p> Address : {{ event.addr_1 }}</p></li>
+        <li><p> DateTime start: {{ event.datetime_start }}</p></li>
+     </ul>
     </div>
     {% endfor %}
+    <hr>
 {% endblock %}
-
