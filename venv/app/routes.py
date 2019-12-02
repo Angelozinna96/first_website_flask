@@ -56,13 +56,10 @@ def search():
     form = SearchForm()
     if form.validate_on_submit():
         if form.search.data.strip() == "":
-            events = Event.query.filter(Event.archived=="no").all()   
-            flash("The event has not been found!")
+            events = Event.query.filter(Event.archived=="no").all()         
         else:
              events = Event.query.filter(Event.name.like(form.search.data+"%")).filter(Event.archived=="no").all()
-             flash("Events has been found!")
     else:
-        flash("The event has not been found!")
         events = Event.query.filter(Event.archived=="no").all()
     return render_template('search.html', title='Search', form=form, events=events)
 
@@ -74,8 +71,7 @@ def shareevent():
         user = User.query.filter(User.username==form.username.data).first()
         ev_id = Event.query.filter(Event.id==form.id_event.data).first()
         #query if already exist the entry
-        if user is not None:
-            shared=Sharedevent.query.filter(Sharedevent.user_id1==current_user.get_id()).filter(Sharedevent.user_id2==user.id).filter(Sharedevent.event_shared==form.id_event.data).first()
+        shared=Sharedevent.query.filter(Sharedevent.user_id1==current_user.get_id()).filter(Sharedevent.user_id2==user.id).filter(Sharedevent.event_shared==form.id_event.data).first()
         if user is None :         
             flash("User not exist!")
         elif ev_id is None:           
@@ -89,7 +85,7 @@ def shareevent():
             flash('Congratulations, your event is been shared!')
  
     events = Event.query.filter(Event.archived=="no").all()
-    return render_template('shareevent.html', title='Share Event', form=form, events=events)
+    return render_template('shareevent.html', title='Search', form=form, events=events)
 
 
 @app.route('/delete_event', methods=['GET', 'POST'])
@@ -103,6 +99,10 @@ def deleteevent():
             db.session.delete(event_to_delete)
             db.session.commit()
             flash('You have successfully removed the event!') 
+            next_page = request.args.get('next')
+            if not next_page or url_parse(next_page).netloc != '':
+                next_page = url_for('index')
+            return redirect(next_page)
         else:
             flash('You can not delete events of other users!')   
     events = Event.query.filter(Event.user_id==current_user.get_id()).all()
@@ -122,6 +122,10 @@ def modifyevent():
             db.session.add(event)
             db.session.commit()
             flash('You have successfully modified the event!')  
+            next_page = request.args.get('next')
+            if not next_page or url_parse(next_page).netloc != '':
+                next_page = url_for('index')
+            return redirect(next_page)
         else:
             flash('You can not modify events of other users!')   
     return render_template('modifyevent.html', title='Modify Event', form=form)
@@ -140,6 +144,10 @@ def archiveevent():
             db.session.add(event)
             db.session.commit()
             flash('You have successfully archived the event!')  
+            next_page = request.args.get('next')
+            if not next_page or url_parse(next_page).netloc != '':
+                next_page = url_for('index')
+            return redirect(next_page)
         else:
             flash('You can not archive events of other users!')   
     events = Event.query.filter(Event.user_id==current_user.get_id()).filter(Event.archived=="no").all()

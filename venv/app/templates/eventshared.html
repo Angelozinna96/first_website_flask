@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Events that your friends have shared to you</h1>
+    <h1>{{ current_user.username }}</h1><br>
+    <h1>Events that your friends have shared _with you</h1>
     {% for event in events %}
     <div>
      <hr>
