@@ -5,32 +5,54 @@
         <link rel="stylesheet" href="static/bootstrap-theme.min.css">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
       {% if title %}
-      <title>{{ title }} - Microblog</title>
+      <title>{{ title }} - Organizer</title>
       {% else %}
       <title>Organaizer</title>
       {% endif %}
     </head>
     <body>
-        <div>
-            Microblog: 
-            <a href="{{ url_for('index') }}">Home </a>
-            {% if current_user.is_anonymous %}
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('register') }}">Register </a>
-            {% else %}
-                <a href="{{ url_for('logout') }}">Logout </a>
-                <a href="{{ url_for('createevent') }}">Create Event </a>
-                <a href="{{ url_for('modifyevent') }}">Modify Event </a>
-                <a href="{{ url_for('deleteevent') }}">Delete Event </a>
-                <a href="{{ url_for('archiveevent') }}">Archive Event </a>
-                <a href="{{ url_for('shareevent') }}">Share Event </a>
-                <a href="{{ url_for('eventshared') }}"> Event Shared to you! </a>
-                <a href="{{ url_for('search') }}">Search </a>
-               
-            {% endif %}
-           
-            
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+                
+         <a class="navbar-brand" href="{{ url_for('index') }}">EV-Organizer </a>
+         <div class="collapse navbar-collapse" id="navbarsExample03">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item">
+                    <a class="nav-link" href={{ url_for('shareevent') }}>Share event</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href={{ url_for('eventshared') }}>Event shared to you!</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href={{ url_for('createevent') }}>Create</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href={{ url_for('modifyevent') }}>Modify</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href={{ url_for('deleteevent') }}>Delete</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href={{ url_for('archiveevent') }}>Archive</a>
+                  </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={{ url_for('search') }}>Search</a>
+                    </li>
+     
         </div>
+                    {% if current_user.is_anonymous %}
+                      <ul class="nav navbar-nav navbar-right navbar-dark bg-dark">
+                        <a href={{ url_for('register') }}>Sign Up</a>
+                        <a href={{ url_for('login') }}>  Login</a>
+                      </ul>
+                    {% else %}
+                    <a style="color:#ffffff">{{ current_user.username }}</a>
+                    <a href={{ url_for('logout') }}> Logout</a>
+
+                     {% endif %}
+                </ul>
+           </div>
+           
+    </nav>
         <hr>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
