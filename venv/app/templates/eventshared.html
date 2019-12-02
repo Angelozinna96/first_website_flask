@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ current_user.username }}</h1><br>
+    <h1>Events that your friends have shared _with you</h1>
+    {% for event in events %}
+    <div>
+     <hr>
+     
+        <p> Friend Username : {{ event[2].username }}
+        <p> Event</p>
+        <p> Name : {{ event[1].name }}</p>
+        <p> Description : {{ event[1].location }}</p>
+        <p> Address : {{ event[1].addr_1 }}</p>
+        <p> DateTime start: {{ event[1].datetime_start }}</p>
+     <hr>
+    </div>
+    {% endfor %}
+{% endblock %}
+

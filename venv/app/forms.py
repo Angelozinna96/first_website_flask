@@ -9,7 +9,7 @@ Created on Thu Nov 28 09:21:53 2019
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, DateTimeField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-from app.models import User, Event
+from app.models import User
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()]) 
@@ -29,7 +29,7 @@ class ArchiveEventForm(FlaskForm):
     submit = SubmitField("Archive")
     
 class SharedEventForm(FlaskForm):
-    id_event = StringField("ID Event", validators=[DataRequired()])   
+    id_event = IntegerField("ID Event", validators=[DataRequired()])   
     username = StringField("Username", validators=[DataRequired()])   
     submit = SubmitField("Share")
 class ModifyEventForm(FlaskForm):

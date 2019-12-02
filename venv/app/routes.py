@@ -23,6 +23,16 @@ def index():
     events = Event.query.filter(Event.user_id==current_user.get_id()).filter(Event.archived=="no").all()
     return render_template('index.html', title='Home', events=events)
 
+@app.route('/event_shared')
+@login_required
+def eventshared():   
+    user_id = Sharedevent.query.join(User,Sharedevent.user_id1==User.id).join(Event,Sharedevent.event_shared==Event.id).filter(Event.archived=="no").all()
+    
+    #retrieve the event information from the event id
+    events = db.session.query(Sharedevent,Event,User).filter(Sharedevent.user_id2==current_user.get_id()).filter(Sharedevent.user_id1==User.id).filter(Sharedevent.event_shared==Event.id).filter(Event.archived=="no").all()
+    
+    return render_template('eventshared.html', title='Event Shared with you', events=events)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
