@@ -7,9 +7,9 @@ Created on Thu Nov 28 09:21:53 2019
 """
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateTimeField, IntegerField,TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, DateTimeField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-from app.models import User
+from app.models import User, Event
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()]) 
@@ -19,17 +19,18 @@ class LoginForm(FlaskForm):
 class SearchForm(FlaskForm):
     search = StringField("Search for event name",default="") 
     submit = SubmitField("Search")
+    
+class DeleteEventForm(FlaskForm):
+    id_event = StringField("ID event", validators=[DataRequired()])   
+    submit = SubmitField("Delete")
+    
 class CreateEventForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()]) 
     addr_1 = StringField("Address line 1", validators=[DataRequired()]) 
-    location = TextAreaField("Description", validators=[DataRequired()]) 
-    datetime_start =  DateTimeField("Datetime start((yyyy-mm-dd HH:mm))", validators=[DataRequired()], format ='%Y-%m-%d %H:%M')
-    user_id = IntegerField("User_id",validators=[DataRequired()])
+    location = StringField("Description", validators=[DataRequired()]) 
+    datetime_start =  DateTimeField("Datetime start(yyyy-mm-dd HH:mm)", validators=[DataRequired()], format ='%Y-%m-%d %H:%M')
     submit = SubmitField("Create")
-    def validate_user_id(self, user_id):
-        us = User.query.filter_by(id=user_id.data).first()
-        if us is None:
-            raise ValidationError('Please use a real User_id')
+    
 class RegistrationForm(FlaskForm):
     firstname = StringField("Firstname", validators=[DataRequired()]) 
     lastname = StringField("Lastname", validators=[DataRequired()]) 

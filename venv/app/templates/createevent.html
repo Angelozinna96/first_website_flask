@@ -19,7 +19,7 @@
         </p>
          <p>
             {{ form.location.label }}<br>
-            {{ form.location(size=32) }}<br>
+            {{ form.location(size=64) }}<br>
             {% for error in form.location.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
@@ -28,13 +28,6 @@
             {{ form.datetime_start.label }}<br>
             {{ form.datetime_start(size=32) }}<br>
             {% for error in form.datetime_start.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.user_id.label }}<br>
-            {{ form.user_id(size=32) }}<br>
-            {% for error in form.user_id.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
