@@ -19,10 +19,11 @@ from app import db
 @app.route('/index')
 @login_required
 def index():
-
+    va= current_user.get_id()
+    events = Event.query.filter(Event.user_id==va).filter(Event.archived=="no").all()
     posts = [
         {
-            'author': {'username': 'John'},
+            'author': {'username': str(va)},
             'body': 'Beautiful day in Portland!'
         },
         {
@@ -30,7 +31,7 @@ def index():
             'body': 'The Avengers movie was so cool!'
         }
     ]
-    return render_template('index.html', title='Home', posts=posts)
+    return render_template('index.html', title='Home', events=events)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
