@@ -7,7 +7,7 @@ Created on Thu Nov 28 09:21:53 2019
 """
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateTimeField
+from wtforms import StringField, PasswordField, SubmitField, DateTimeField, IntegerField,TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
@@ -20,10 +20,14 @@ class LoginForm(FlaskForm):
 class CreateEventForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()]) 
     addr_1 = StringField("Address line 1", validators=[DataRequired()]) 
-    location = StringField("Location Name", validators=[DataRequired()]) 
-    datetime_start =  DateTimeField("Datetime start((dd-mm-yyyy HH:mm))", validators=[DataRequired()], format ='%d-%m-%Y %H:%M')
-    submit = SubmitField("Sign Up")
-
+    location = TextAreaField("Description", validators=[DataRequired()]) 
+    datetime_start =  DateTimeField("Datetime start((yyyy-mm-dd HH:mm))", validators=[DataRequired()], format ='%Y-%m-%d %H:%M')
+    user_id = IntegerField("User_id",validators=[DataRequired()])
+    submit = SubmitField("Create")
+    def validate_user_id(self, user_id):
+        us = User.query.filter_by(id=user_id.data).first()
+        if us is None:
+            raise ValidationError('Please use a real User_id')
 class RegistrationForm(FlaskForm):
     firstname = StringField("Firstname", validators=[DataRequired()]) 
     lastname = StringField("Lastname", validators=[DataRequired()]) 

@@ -32,9 +32,9 @@
             {% endfor %}
         </p>
         <p>
-            {{ form.datetime_end.label }}<br>
-            {{ form.datetime_end(size=32) }}<br>
-            {% for error in form.datetime_end.errors %}
+            {{ form.user_id.label }}<br>
+            {{ form.user_id(size=32) }}<br>
+            {% for error in form.user_id.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>

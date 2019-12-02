@@ -7,12 +7,13 @@ Created on Sat Nov 16 15:28:33 2019
 """
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user,logout_user, login_required
-from app.models import User
+from app.models import User, Event, Sharedevent
 from app import app
 from app.forms import LoginForm, RegistrationForm, CreateEventForm
 from flask import request
 from werkzeug.urls import url_parse
 from app import db
+
 
 @app.route('/')
 @app.route('/index')
@@ -70,7 +71,9 @@ def register():
 def createevent():
     form = CreateEventForm()
     if form.validate_on_submit():
-        flash('event {} Successfull created!'.format(
-            form.name.data))
+        event=Event(name=form.name.data, addr_1=form.addr_1.data,datetime_start=form.datetime_start.data,user_id=form.user_id.data)
+        db.session.add(event)
+        db.session.commit()
+        flash('Congratulations, your event is been created!')
         return redirect(url_for('index'))
     return render_template('createevent.html', title='Create Event', form=form)
